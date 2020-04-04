@@ -82,3 +82,9 @@ body {
   width: 700px;
   margin: auto;
 }
+
+.balance {
+  grid-area: rm;
+  margin: auto;
+  margin-top: 100px;
+}
