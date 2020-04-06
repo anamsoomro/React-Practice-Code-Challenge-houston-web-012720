@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import SushiContainer from './containers/SushiContainer';
 import Table from './containers/Table';
 
-// Endpoint!
 const API = "http://localhost:3000/sushis"
 
 class App extends Component {
@@ -29,7 +28,6 @@ class App extends Component {
   }
 
   nextFour = () => {
-    // also why does this function run twice
     return this.state.sushis.slice(this.state.index, this.state.index + 4)
   }
 
@@ -41,15 +39,16 @@ class App extends Component {
   }
 
   handleEat = (clickedSushi) => {
+    // if you just change that sushi, javascript points to the same memory location
+    // it will update there and everywhere with the same memory
     if ( this.state.money >= clickedSushi.price ){
       // console.log("handleEat beginning", this.state) // wait this part console.logs with eaten already ??
       clickedSushi.eaten = true
       this.state.sushisAte.push(clickedSushi) // why does this let me change the state without using setState ?? 
-      let updatedSushis = [...this.state.sushis, clickedSushi]
-      let balance = this.state.money
+      // let updatedSushis = [...this.state.sushis, clickedSushi] // same thing memory allocation. not needed. 
       this.setState({
-        sushis: updatedSushis,
-        money: balance - clickedSushi.price
+        // sushis: updatedSushis,
+        money: this.state.money - clickedSushi.price
       })
     } else { 
       alert (`you aint got ${clickedSushi.name} money`)
@@ -58,11 +57,10 @@ class App extends Component {
 
   handleMoney = (event) => {
     event.preventDefault()
-    let prevBalance = this.state.money 
-    // how to form.reset() or clear whatever here
     this.setState({
-      money: prevBalance + parseInt(event.target[0].value)
+      money: this.state.money + parseInt(event.target[0].value)
     })
+    event.target.reset()
   }
 
   render() {
